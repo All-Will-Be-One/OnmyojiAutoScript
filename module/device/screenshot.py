@@ -31,7 +31,10 @@ class Screenshot(Adb, DroidCast, Scrcpy, Window, NemuIpc):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        super(Window, self).__init__(*args, **kwargs)
+        # Only Windows has a Handle base that needs explicit initialization.
+        # The non-Windows Window stub ultimately resolves to object.__init__.
+        if IS_WINDOWS:
+            super(Window, self).__init__(*args, **kwargs)
 
     @cached_property
     def screenshot_methods(self):
