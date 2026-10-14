@@ -39,7 +39,7 @@
     "itemName": "main_goto_shikigami_records",
     "imageName": "page_main_goto_shikigami_records.png",
     "roiFront": "1080,590,56,64",
-    "roiBack": "1080,590,120,100",
+    "roiBack": "950,590,250,110",
     "method": "Template matching",
     "threshold": 0.7,
     "description": "庭院前往式神录"
@@ -156,7 +156,7 @@
     "itemName": "check_daily",
     "imageName": "page_check_daily.png",
     "roiFront": "28,515,58,62",
-    "roiBack": "1,487,154,145",
+    "roiBack": "1,487,230,145",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "花合战页面标志"

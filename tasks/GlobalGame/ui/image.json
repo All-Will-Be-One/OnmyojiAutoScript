@@ -57,7 +57,7 @@
     "itemName": "ui_back_yellow",
     "imageName": "ui_ui_back_yellow.png",
     "roiFront": "26,17,47,46",
-    "roiBack": "0,0,100,100",
+    "roiBack": "0,0,180,100",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "description"

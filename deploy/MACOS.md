@@ -32,6 +32,20 @@ restore with `adb -s SERIAL shell wm size reset`. The check never changes displa
 settings. Game login, layout compatibility, and actual task execution require
 separate validation with the game installed and open.
 
+On phones, the expanded courtyard menu may place the shikigami icon farther
+left and hide the buff icon. Login and navigation also recognize the combination
+of the shikigami and shop icons; both must be visible for this fallback.
+DailyTrifles does not require the Windows-only `winerror` module.
+Phone safe-area offsets are supported for the back button, gift-room daily tab,
+and TalismanPass page marker. The shop recommendation page also recognizes its
+Chinese title when the currency icon differs from the original template.
+
+Live validation on the CN mobile client still required agent assistance to close
+the courtyard sign-in/result overlays. Treat login plus harvest as supervised;
+task completion alone does not prove every overlay has closed or every reward
+was claimed. Leave recurring schedules disabled until the desired task chain
+has been validated without assistance.
+
 Set deploy.yaml to local-only host, disable auto-updates (to preserve fork fixes),
 and use the virtual environment's Python path and Homebrew ADB path. Neither
 background scheduling nor login-time startup is required for agent use.

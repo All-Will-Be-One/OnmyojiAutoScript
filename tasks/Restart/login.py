@@ -49,13 +49,17 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets, GeneralBuffAssets):
             if self.appear_then_click(self.I_CANCEL_BATTLE, interval=0.8):
                 logger.info('Cancel continue battle')
                 continue
-            # 确认进入庭院(优化：先检测加成图标确认在庭院页面，再检测式神录图标)
-            if self.appear(self.I_BUFF_1, interval=0.2):
-                # 加成图标存在，确认在庭院页面
+            # 手机展开菜单后可能隐藏加成图标，同时识别两个菜单图标作为备用判断。
+            main_menu_visible = (
+                self.appear(self.I_MAIN_GOTO_SHIKIGAMI_RECORDS)
+                and self.appear(self.I_MAIN_GOTO_MALL)
+            )
+            if self.appear(self.I_BUFF_1, interval=0.2) or main_menu_visible:
+                # 加成图标或完整菜单存在，再确认式神录按钮。
                 if self.appear(self.I_MAIN_GOTO_SHIKIGAMI_RECORDS, interval=0.2):
                     # 式神录图标存在，认为已在庭院
                     if confirm_timer.reached():
-                        logger.info('Login to main confirm (buff and shikigami records button appears)')
+                        logger.info('Login to main confirm (buff or main menu, and shikigami records)')
                         break
                     login_success = True
                 else:

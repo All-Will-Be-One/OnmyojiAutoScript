@@ -13,6 +13,7 @@ from typing import Union
 import random
 
 from module.atom.click import RuleClick
+from module.atom.ocr import RuleOcr
 from tasks.Component.GeneralBattle.assets import GeneralBattleAssets
 from tasks.GlobalGame.assets import GlobalGameAssets
 from tasks.GameUi.assets import GameUiAssets
@@ -59,7 +60,10 @@ page_login = Page(SwitchAccountAssets.I_CHECK_LOGIN_FORM, category="global")
 page_login.add_enter_success_hooks(handle_login_page)
 
 # 庭院主页(此处通过提高阈值来处理部分探索章节会识别成原始庭院的问题, 后续有其他更好方法需改善)
-page_main = Page(GameUiAssets.I_CHECK_MAIN, category="global")
+page_main = Page(any_of(
+    GameUiAssets.I_CHECK_MAIN,
+    all_of(GameUiAssets.I_MAIN_GOTO_SHIKIGAMI_RECORDS, GameUiAssets.I_MAIN_GOTO_MALL),
+), category="global")
 page_main.add_enter_success_hooks(
     GameUiAssets.I_AD_CLOSE_RED, GlobalGameAssets.I_UI_BACK_RED, RestartAssets.I_CANCEL_BATTLE,
     conditional_action(RestartAssets.I_LOGIN_COURTYARD, RestartAssets.C_LOGIN_SCROLL_CLOSE_AREA),
@@ -101,7 +105,13 @@ page_mall.add_enter_failure_hooks(conditional_action(condition=GameUiAssets.I_CH
 page_mall.add_enter_success_hooks(GameUiAssets.I_AD_CLOSE_RED, GlobalGameAssets.I_UI_BACK_RED, GlobalGameAssets.I_UI_CANCEL_SAMLL)
 page_mall.connect(page_main, GlobalGameAssets.I_UI_BACK_YELLOW, key="page_mall->page_main")
 
-page_mall_recommend = Page(GameUiAssets.I_CHECK_MALL_RECOMMEND, category="global")
+mall_recommend_title = RuleOcr(
+    roi=(180, 0, 260, 85), area=(180, 0, 260, 85), mode="Full",
+    method="Default", keyword="热门推荐", name="mall_recommend_title",
+)
+page_mall_recommend = Page(any_of(
+    GameUiAssets.I_CHECK_MALL_RECOMMEND, mall_recommend_title,
+), category="global")
 page_mall_recommend.add_enter_success_hooks(GameUiAssets.I_AD_CLOSE_RED, GlobalGameAssets.I_UI_BACK_RED,
                                             GlobalGameAssets.I_UI_CANCEL_SAMLL)
 page_mall_recommend.connect(page_mall, GlobalGameAssets.I_UI_BACK_YELLOW, key="page_mall_recommend->page_mall")
